@@ -1,81 +1,65 @@
-from flask import Flask, request, jsonify, render_template, session, redirect, url_for
+from flask import Flask, request, jsonify
 import openai
 import os
 from dotenv import load_dotenv
-from datetime import datetime
+from openai import OpenAI
 
+# Load environment variables from .env file
 load_dotenv()
 
+# Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Set OpenAI API key
+client = OpenAI(api_key="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")
 
-FINE_TUNED_MODEL = 'ft:gpt-4o-mini-2024-07-18:personal::ADXHfnAj'
+# Optionally, set the fine-tuned model ID
+FINE_TUNED_MODEL = "ftjob-aHLySRVYtPvGvaHXupAwC9La" 
 
-def test_new_model(prompt):
-    try:
-        
-        prompt_lower = prompt.lower()
-
-        
-        if 'gpa calculator' in prompt_lower:
-            session['asked_schedule'] = False
-            return ('The GPA Calculator feature is built into this bot! Please use the **GPA Calculator** option in the sidebar menu '
-                    'to calculate your GPA with ease.')
-
-        if 'scholarships' in prompt_lower:
-            session['asked_schedule'] = True
-            return ('Scholarship information is available in the sidebar menu. Please select the **Scholarships** option to explore opportunities.')
-
-        if 'academic calendar' in prompt_lower:
-            session['asked_schedule'] = False
-            return 'You can view the <strong>Academic Calendar</strong> <a href="https://www.morgan.edu/academic-calendar" target="_blank" style="color: #007bff;">here</a>.'
-
-        if 'morgan home page' in prompt_lower or 'morgan university' in prompt_lower:
-            session['asked_schedule'] = False
-            return ('Looking for the Morgan State University homepage? Please use the **Morgan State Home Page** option in the sidebar menu, '
-                    'or visit it directly <a href="https://www.morgan.edu" target="_blank" style="color: #007bff;">here</a>.')
-        
-        
-        response = openai.ChatCompletion.create(
-            model=FINE_TUNED_MODEL,
-            messages=[
-                {'role': 'system', 'content': 'You are a helpful assistant that assists with making sure Morgan State students are successful with coursework and coding.'},
-                {'role': 'user', 'content': prompt}
-            ],
-            temperature=0.7,
-            max_tokens=150,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        return response['choices'][0]['message']['content']
-    
-    except Exception as e:
-        return f"An error occurred: {e}"
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
+
     if not data or 'message' not in data:
-        return jsonify({"message": "No message provided"})
-    
+        return jsonify({"error": "Invalid request. 'message' field is required."}), 400
+
     user_message = data['message']
-    bot_response = test_new_model(user_message)
 
-    return jsonify({
-        'message': bot_response,
-        'imageUrl': 'https://example.com/logo.png' if 'logo' in user_message.lower() else None
-    })
+    # Define system prompt
+    system_prompt = (
+        "You are a helpful assistant that assists with everything Python (coding) and "
+        "only Python. You were designed to help the Computer Science Students of Morgan "
+        "State University help debug, create code, and become better coders."
+    )
 
-@app.route('/gpa-calculator')
-def gpa_calculator():
-    return render_template('gpa_calculator.html')
+    try:
+        # Create a chat completion
+        response = openai.ChatCompletion.create(
+            model=FINE_TUNED_MODEL,  # Use the fine-tuned model if available
+            # model="gpt-4",  # Uncomment to use standard GPT-4
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_message}
+            ],
+            temperature=0.7,  # Adjust as needed
+            max_tokens=150,    # Adjust based on response length requirements
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+
+        assistant_message = response['choices'][0]['message']['content'].strip()
+
+        return jsonify({"message": assistant_message}), 200
+
+    except openai.error.OpenAIError as e:
+        # Handle OpenAI API errors
+        return jsonify({"error": str(e)}), 500
+
+    except Exception as e:
+        # Handle general errors
+        return jsonify({"error": "An unexpected error occurred."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
