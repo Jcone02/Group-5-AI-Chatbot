@@ -1,0 +1,26 @@
+# How to Run Your Chatbot
+
+1. **Open Terminal**  
+   Find the Terminal application on your computer and open it.
+
+2. **Navigate to the Project Folder**  
+   Type the following command and press **Enter**:  
+   cd path/to/your/project  
+   (Replace `path/to/your/project` with the location where your chatbot files are saved.)
+
+3. **Install Requirements**  
+   If you haven't installed the required packages yet, type the following and press **Enter**:  
+   pip3 install -r requirements.txt  
+   (Use `pip3` to ensure the correct version of Python is used.)
+
+4. **Run the Chatbot**  
+   Type the following and press **Enter**:  
+   python3 Flask.py  
+   (Replace `Flask.py` with your main Python script if it's named differently.)
+
+5. **Open the Chatbot**  
+   Once you see something like `Running on http://127.0.0.1:5000/`, open a web browser and go to that address.
+
+---
+
+That's all! The chatbot should now be up and running!

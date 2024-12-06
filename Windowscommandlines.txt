@@ -1,0 +1,47 @@
+Command Line Libraries needed to use this program on Windows
+
+
+
+# Install Flask
+pip3 install flask
+
+# Install OpenAI library
+pip3 install openai
+
+# Install python-dotenv
+pip3 install python-dotenv
+
+# Install requests
+pip3 install requests
+
+# Install Flask-CORS
+pip3 install flask-cors
+
+# Install Flask-SQLAlchemy (if using a database)
+pip3 install flask-sqlalchemy
+
+# Install Flask-Login (for user authentication)
+pip3 install flask-login
+
+# Install Flask-Migrate (for database migrations)
+pip3 install flask-migrate
+
+# Install Flask-WTF (for form handling)
+pip3 install flask-wtf
+
+# Install Flask-Bcrypt (for password hashing)
+pip3 install flask-bcrypt
+
+# Install gunicorn (for production server)
+pip3 install gunicorn
+
+
+
+****Note******:
+If you're on Windows, you don't need to worry about Linux-specific tools like Homebrew. The above steps for managing packages are native to Windows. Let me know if you'd like more details or run into any issues!
+
+* ALSO NOTE On Windows, Homebrew isn't available by default. You will need to rely on pip3 for Python-related installations.* 
+
+winget install OpenSSL
+
+use this ^ to instal Open SSL - Open SSL allows you to run a local server on your computer. 
