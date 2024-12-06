@@ -1,26 +1,42 @@
-# How to Run Your Chatbot
+# 1. How to Run Your Chatbot
 
-1. **Open Terminal**  
-   Find the Terminal application on your computer and open it.
+. **Open Terminal or Command Prompt**  
+   - On **macOS**, open the **Terminal** application (you can find it in **Applications > Utilities**).  
+   - On **Windows**, open **Command Prompt** or **PowerShell** (search for "cmd" or "PowerShell" in the Start menu).  
+   - On **Linux**, open the **Terminal** (often found in the applications menu).
 
-2. **Navigate to the Project Folder**  
+. **Navigate to the Project Folder**  
    Type the following command and press **Enter**:  
-   cd path/to/your/project  
-   (Replace `path/to/your/project` with the location where your chatbot files are saved.)
+
+
+2.. cd path/to/your/project
+(Replace `path/to/your/project` with the location where your `Flask.py` file is stored on your local computer.)  
+- On **Windows**, if your project is on a different drive (e.g., D:), use the command `D:` to switch drives before using `cd`.
 
 3. **Install Requirements**  
-   If you haven't installed the required packages yet, type the following and press **Enter**:  
-   pip3 install -r requirements.txt  
-   (Use `pip3` to ensure the correct version of Python is used.)
+If you haven't installed the required packages yet, type the following and press **Enter**: pip3 install -r requirements.txt
+
+- (Use `pip3` to ensure the correct version of Python is used.)  
+- On **Windows**, if you get an error with `pip3`, try:
+  ```
+  python -m pip install -r requirements.txt
+  ```
 
 4. **Run the Chatbot**  
-   Type the following and press **Enter**:  
-   python3 Flask.py  
-   (Replace `Flask.py` with your main Python script if it's named differently.)
+Type the following and press **Enter**:  
+
+(Make sure you are in the correct directory where `Flask.py` is stored.)  
+- On **Windows**, use the following command instead:
+  ```
+  python Flask.py
+  ```
 
 5. **Open the Chatbot**  
-   Once you see something like `Running on http://127.0.0.1:5000/`, open a web browser and go to that address.
+Once you see something like `Running on http://127.0.0.1:5000/`, open a web browser and go to that address.
+
+*Warning* Constant Refreshing of the app can lead to an HTTPS 403 Error.
 
 ---
 
-That's all! The chatbot should now be up and running!
+That's all! Your chatbot should now be up and running!
+
